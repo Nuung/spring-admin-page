@@ -3,5 +3,9 @@
 > Spring(boot) practice. Simple admin page for shopping mall!!
 
 ## Tech Stack
+- RESTful-API
+- mysql
 - Spring Boot
-- 
+    - Lombok
+    - JPA 
+- git (with github)
