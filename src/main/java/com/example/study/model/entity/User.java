@@ -24,9 +24,17 @@ public class User {
 //    @Column(name = "account") // 같으면 굳이 할 필요없이 자동으로 매칭해준다
     private String account;
 
+    private String password;
+
+    private String status;
+
     private String email;
 
     private String phoneNumber; // jpa에서는 카멜 케이스 -> 스네이크 형식의 다른 변수들도 매칭해준다!
+
+    private LocalDateTime registeredAt;
+
+    private LocalDateTime unregisteredAt;
 
     private LocalDateTime createdAt;
 
@@ -37,6 +45,8 @@ public class User {
     private String updatedBy;
 
     // 1 : N
+    /*
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user") // orderDetail에 있는 user 변수이름과 동일해야한다!
     private List<OrderDetail> orderDetailList;
+     */
 }

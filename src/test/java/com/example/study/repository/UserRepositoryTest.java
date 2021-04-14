@@ -26,9 +26,33 @@ public class UserRepositoryTest extends StudyApplicationTests {
 
     @Test
     public void create() {
+
+        String account = "Test01";
+        String password = "Test01";
+        String status = "REGISTERED";
+        String email = "Test01@gmail.com";
+        String phoneNumber = "010-1111-2222";
+        LocalDateTime registeredAt = LocalDateTime.now();
+        LocalDateTime createdAt = LocalDateTime.now();
+        String createdBy = "AdminServer";
+
+        User user = new User();
+        user.setAccount(account);
+        user.setPassword(password);
+        user.setStatus(status);
+        user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
+        user.setRegisteredAt(registeredAt);
+        user.setCreatedAt(createdAt);
+        user.setCreatedBy(createdBy);
+
+        User newUser = userRepository.save(user);
+        Assertions.assertNotNull(newUser);
+
+        /*
         // Insert into .... 와 같은 raw한 query가 쓸 필요가 없어진다! JPA -> ORM의 강점과 이유
         User user = new User(); // 싱글톤
-//        user.setId(); // not null / auto increa -> 컨트롤 할 필요 X
+        // user.setId(); // not null / auto increa -> 컨트롤 할 필요 X
         user.setAccount("TestUser03");
         user.setEmail("TestUser03@gmail.com");
         user.setPhoneNumber("010-1111-3333");
@@ -38,11 +62,18 @@ public class UserRepositoryTest extends StudyApplicationTests {
         System.out.println(user);
         User newUser = userRepository.save(user); // return type이 user -> id도 달고나온다!
         System.out.println("newUser : " + newUser);
+         */
     }
 
     @Test
     @Transactional
     public void read(){ // (@RequestParam Long id) {
+
+        User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222"); // 없으면 null
+        Assertions.assertNotNull(user);
+        System.out.println(user);
+
+        /*
         // User user = userRepository.findById(2L); // L은 long -> 이렇게만 하면 빨간줄! Optional 제네릭타입으로 받아야함
         Optional<User> user = userRepository.findById(7L); // 있을수도 있고, 없을 수 도 있다! ~ 카멜케이스
 
@@ -71,6 +102,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
 
         // userRepository.findAll();
         // return user;
+         */
     }
 
     @Test
