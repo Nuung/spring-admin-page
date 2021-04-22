@@ -73,6 +73,26 @@ public class UserRepositoryTest extends StudyApplicationTests {
         Assertions.assertNotNull(user);
         System.out.println(user);
 
+        if (user != null) { // optional로 null point 회피 가능합니다~
+            // 관계 테스트
+            user.getOrderGroup().stream().forEach(orderGroup -> {
+                System.out.println("-------------주문 묶음-------------");
+                System.out.println(orderGroup);
+
+                System.out.println("-------------주문 상세-------------");
+                orderGroup.getOrderDetailList().forEach(orderDetail -> {
+                    System.out.println("주문상태: " + orderDetail);
+
+                    // 관계로 더 깊게 파고들어갈 수 있다! -> join 이 쌉가능해지는겨~
+                    System.out.println("주문상품: " + orderDetail.getItem().getName()); // detail -> item
+                    System.out.println("파트너사 이름: " + orderDetail.getItem().getPartner().getName());
+                    System.out.println("고객센터 번호: " + orderDetail.getItem().getPartner().getCallCenter()); // item -> partner
+                    // 파트너 통해서 카테고리까지 쌉가능함!
+                    System.out.println("파트너사 카테고리: " + orderDetail.getItem().getPartner().getCategory().getTitle());
+                });
+            });
+        }
+
         /*
         // User user = userRepository.findById(2L); // L은 long -> 이렇게만 하면 빨간줄! Optional 제네릭타입으로 받아야함
         Optional<User> user = userRepository.findById(7L); // 있을수도 있고, 없을 수 도 있다! ~ 카멜케이스

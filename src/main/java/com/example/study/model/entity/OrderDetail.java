@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString(exclude = {"item", "orderGroup"})
 // @ToString(exclude = {"user", "item"}) // 서로 상호참조하고 있던 obj들을 자동으로 toString을 호출하게 되면서 무한 루프 -> stack overflow!
 public class OrderDetail {
 
@@ -38,9 +39,13 @@ public class OrderDetail {
 
     private String updatedBy;
 
-    private Long itemId;
+    // OrderDetail N : 1 item
+    @ManyToOne
+    private Item item;
 
-    private Long OrderGroupId;
+    // OrderDetail N : 1 OrderGroup
+    @ManyToOne
+    private OrderGroup orderGroup;
 
     /*
     // private Long userId; 에서 아래로 변경
