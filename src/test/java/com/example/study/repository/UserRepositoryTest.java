@@ -27,24 +27,42 @@ public class UserRepositoryTest extends StudyApplicationTests {
     @Test
     public void create() {
 
-        String account = "Test01";
-        String password = "Test01";
+        String account = "Test03";
+        String password = "Test03";
         String status = "REGISTERED";
         String email = "Test01@gmail.com";
-        String phoneNumber = "010-1111-2222";
+        String phoneNumber = "010-1111-3333";
         LocalDateTime registeredAt = LocalDateTime.now();
         LocalDateTime createdAt = LocalDateTime.now();
         String createdBy = "AdminServer";
 
+
+
         User user = new User();
+        // 위와 다르게 모든 매개변수를 가지는 생성자를 사용하면?
+        // 순서, 데이터형 모두 따라줘야함 -> 유지 보수도 존나 귀찮고 힘듦 -> 새로운 생성자가 생기면 ㅈ같음
+        // Lombok의 기능! 생성자 패턴! Builder를 사용하자!!
+        // User user = new User(account, password, status, email, phoneNumber, registeredAt, )
+
         user.setAccount(account);
         user.setPassword(password);
         user.setStatus(status);
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
         user.setRegisteredAt(registeredAt);
-        user.setCreatedAt(createdAt);
-        user.setCreatedBy(createdBy);
+        //user.setCreatedAt(createdAt);
+        //user.setCreatedBy(createdBy);
+
+
+        // Lombok builder이용하기! -> 요즘 많이 사용합니다! ~ 롬곡의 어노테이션 이용!!
+        User u = User.builder()
+                .account(account)
+                .password(password)
+                .status(status)
+                .email(email)
+                .build();
+        // this를 return하는 method라서 메소드 체이닝이 가능합니다!!
+
 
         User newUser = userRepository.save(user);
         Assertions.assertNotNull(newUser);
@@ -70,6 +88,10 @@ public class UserRepositoryTest extends StudyApplicationTests {
     public void read(){ // (@RequestParam Long id) {
 
         User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222"); // 없으면 null
+
+        // @Accessors(chain = true)의 Lombok 어노테이션으로 아래와 같이 메소드 체이닝 가능함!!
+        //user.setEmail("").setPhoneNumber("").setStatus("") // ...
+
         Assertions.assertNotNull(user);
         System.out.println(user);
 

@@ -2,10 +2,13 @@ package com.example.study.model.entity;
 
 // DB table의 이름과 동일하게, 어퍼 카멜케이스!!
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,6 +20,9 @@ import java.util.List;
 @Entity
 @ToString(exclude = {"orderGroup"}) // stackOverFlow (서로 tostring 하면서 무한 참조 방지)
 //@Table(name = "user"); // 같으면 굳이 할 필요 X
+@EntityListeners(AuditingEntityListener.class)
+@Builder // 생성자패턴!
+@Accessors(chain = true) // Test부분 살펴봐
 public class User {
 
     @Id
@@ -38,12 +44,16 @@ public class User {
 
     private LocalDateTime unregisteredAt;
 
+    @CreatedDate
     private LocalDateTime createdAt;
 
+    @CreatedBy
     private String createdBy;
 
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    @LastModifiedBy
     private String updatedBy;
 
     // User 1 : N OrderGroup
